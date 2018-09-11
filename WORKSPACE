@@ -80,6 +80,24 @@ go_repository(
     importpath = "github.com/golang/mock",
 )
 
+#Get the solidity compiler
+
+load("//contracts:rules/solcompiler.bzl", "solc_fetch")
+
+solc_fetch(
+    name = "solc_sdk",
+    sdks = {
+        "linux_amd64": (
+            "https://github.com/ethereum/solidity/releases/download/v0.4.23/solc-static-linux",
+            "c648d299bd21f4c74ce17954706cfc5a7a9fbbd1e8739546ed8754cacd8ca7c2",
+        ),
+        "windows_amd64": (
+            "https://github.com/ethereum/solidity/releases/download/v0.4.23/solidity-windows.zip",
+            "28e001925fee2aeb0ed0afa4afb39313182b79a157b30a73df183efee29e306c",
+        ),
+    },
+)
+
 # External dependencies
 
 go_repository(

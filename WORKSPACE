@@ -88,12 +88,16 @@ solc_fetch(
     name = "solc_sdk",
     sdks = {
         "linux_amd64": (
-            "https://github.com/ethereum/solidity/releases/download/v0.4.23/solc-static-linux",
-            "c648d299bd21f4c74ce17954706cfc5a7a9fbbd1e8739546ed8754cacd8ca7c2",
+            "https://github.com/ethereum/solidity/releases/download/v0.4.24/solc-static-linux",
+            "665675b9e0431c2572d59d6a7112afbdc752732ea0ce9aecf1a1855f28e02a09",
         ),
         "windows_amd64": (
-            "https://github.com/ethereum/solidity/releases/download/v0.4.23/solidity-windows.zip",
-            "28e001925fee2aeb0ed0afa4afb39313182b79a157b30a73df183efee29e306c",
+            "https://github.com/ethereum/solidity/releases/download/v0.4.24/solidity-windows.zip",
+            "0a9f3620a7c9ab63e92cbeb2a6c5ad1e02c023286576b4e61a9baadfa2fec42e",
+        ),
+        "darwin_amd64": (
+            "https://prysmaticlabs.com/uploads/solc_darwin_0.4.24",
+            "69743b0ca560144588f843778cbfff80849ad3522ae4de1ba626fa40e2eb0b97",
         ),
     },
 )

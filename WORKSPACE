@@ -96,8 +96,8 @@ solc_fetch(
             "0a9f3620a7c9ab63e92cbeb2a6c5ad1e02c023286576b4e61a9baadfa2fec42e",
         ),
         "darwin_amd64": (
-            "https://prysmaticlabs.com/uploads/solc_darwin_0.4.24",
-            "69743b0ca560144588f843778cbfff80849ad3522ae4de1ba626fa40e2eb0b97",
+            "https://35078-40892817-gh.circle-artifacts.com/0/solc",
+            "48e45a6f1177704266565deeb6281e09513c6b8cd4c64e36bcb2a8b72bb0c8a3",
         ),
     },
 )

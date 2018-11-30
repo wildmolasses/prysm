@@ -1,0 +1,23 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: jaeger-spark-dependencies
+  namespace: monitoring
+spec:
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          priorityClassName: batch-priority
+          containers:
+          - env:
+            - name: STORAGE
+              value: cassandra
+            - name: CASSANDRA_CONTACT_POINTS
+              value: cassandra:9042
+            image: jaegertracing/spark-dependencies
+            imagePullPolicy: Always
+            name: jaeger-spark-dependencies
+          restartPolicy: Never
+          terminationGracePeriodSeconds: 30
+  schedule: 55 23 * * *

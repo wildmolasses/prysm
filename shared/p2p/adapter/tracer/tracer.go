@@ -24,9 +24,10 @@ func New(name, endpoint string, sampleFraction float64, enable bool) (p2p.Adapte
 
 	trace.ApplyConfig(trace.Config{DefaultSampler: trace.ProbabilitySampler(sampleFraction)})
 
+	// TODO: This should be its own service where Flush() is called on shutdown.
 	log.Infof("Starting Jaeger exporter endpoint at address = %s", endpoint)
 	exporter, err := jaeger.NewExporter(jaeger.Options{
-		Endpoint: endpoint,
+		AgentEndpoint: endpoint,
 		Process: jaeger.Process{
 			ServiceName: name,
 		},

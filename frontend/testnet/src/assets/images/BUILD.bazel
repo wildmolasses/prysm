@@ -1,0 +1,6 @@
+package(default_visibility = ["//frontend/testnet:__subpackages__"])
+
+filegroup(
+    name = "images",
+    srcs = glob(["**/*"]),
+)

@@ -1,0 +1,20 @@
+package(default_visibility=["//frontend:__subpackages__"])
+
+# Copy zone.min.js to this package.
+# Needed because the prodserver only loads static files that appear under this
+# package.
+genrule(
+    name = "copy_zonejs",
+    srcs = ["@npm//node_modules/zone.js:dist/zone.min.js"],
+    outs = ["zone.min.js"],
+    cmd = "cp $< $@",
+)
+
+# See comment for zonejs above
+genrule(
+    name = "copy_systemjs",
+    srcs = ["@npm//node_modules/systemjs:dist/system.js"],
+    outs = ["system.js"],
+    cmd = "cp $< $@",
+)
+

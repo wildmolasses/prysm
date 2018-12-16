@@ -2,10 +2,22 @@ load("@bazel_gazelle//:def.bzl", "gazelle")
 load("@com_github_atlassian_bazel_tools//gometalinter:def.bzl", "gometalinter")
 load("@com_github_atlassian_bazel_tools//goimports:def.bzl", "goimports")
 load("@io_kubernetes_build//defs:run_in_workspace.bzl", "workspace_binary")
+load("@build_bazel_rules_typescript//:defs.bzl", "ts_config")
 
 prefix = "github.com/prysmaticlabs/prysm"
 
-exports_files(["genesis.json"])
+exports_files([
+    "genesis.json",
+    "tsconfig.json",
+])
+
+# tsconfig used for tests.
+ts_config(
+    name = "tsconfig-test",
+    src = "tsconfig-test.json",
+    deps = [":tsconfig.json"],
+		visibility = ["//frontend:__subpackages__"],
+)
 
 # gazelle:prefix github.com/prysmaticlabs/prysm
 gazelle(

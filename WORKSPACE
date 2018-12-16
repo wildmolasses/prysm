@@ -1,3 +1,5 @@
+workspace(name = "prysm")
+
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 http_archive(
@@ -36,6 +38,55 @@ http_archive(
 load("@io_bazel_rules_docker//docker:docker.bzl", "docker_repositories")
 
 docker_repositories()
+
+http_archive(
+    name = "angular",
+    url = "https://github.com/angular/angular/archive/7.1.3.zip",
+    strip_prefix = "angular-7.1.3",
+)
+
+# The @rxjs repo contains targets for building rxjs with bazel
+http_archive(
+    name = "rxjs",
+    url = "https://registry.yarnpkg.com/rxjs/-/rxjs-6.3.3.tgz",
+    strip_prefix = "package/src",
+    sha256 = "72b0b4e517f43358f554c125e40e39f67688cd2738a8998b4a266981ed32f403",
+)
+
+http_archive(
+    name = "build_bazel_rules_typescript",
+    url = "https://github.com/bazelbuild/rules_typescript/archive/0.22.0.zip",
+    strip_prefix = "rules_typescript-0.22.0",
+)
+
+http_archive(
+    name = "io_bazel_rules_sass",
+    url = "https://github.com/bazelbuild/rules_sass/archive/1.15.1.zip",
+    strip_prefix = "rules_sass-1.15.1",
+)
+
+load("@build_bazel_rules_typescript//:package.bzl", "rules_typescript_dependencies")
+rules_typescript_dependencies()
+
+load("@build_bazel_rules_typescript//:defs.bzl", "ts_setup_workspace")
+
+ts_setup_workspace()
+
+load("@io_bazel_rules_sass//:defs.bzl", "sass_repositories")
+
+sass_repositories()
+
+load("@angular//:index.bzl", "ng_setup_workspace")
+
+ng_setup_workspace()
+
+# Setup web testing, choose browsers we can test on
+load("@io_bazel_rules_webtesting//web:repositories.bzl", "browser_repositories", "web_test_repositories")
+
+web_test_repositories()
+browser_repositories(
+  chromium = True,
+)
 
 http_archive(
     name = "build_bazel_rules_nodejs",

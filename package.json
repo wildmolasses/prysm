@@ -3,6 +3,26 @@
   "version": "0.0.0",
   "repository": "git@github.com:prysmaticlabs/prysm.git",
   "devDependencies": {
-    "solium": "1.1.8"
+    "@angular/animations": "7.1.3",
+    "@angular/bazel": "7.1.3",
+    "@angular/cdk": "7.1.1",
+    "@angular/common": "7.1.3",
+    "@angular/compiler": "7.1.3",
+    "@angular/compiler-cli": "7.1.3",
+    "@angular/core": "7.1.3",
+    "@angular/material": "7.1.1",
+    "@angular/platform-browser": "7.1.3",
+    "@angular/router": "7.1.3",
+    "@bazel/karma": "0.22.0",
+    "@bazel/typescript": "0.22.0",
+    "@types/jasmine": "3.3.2",
+    "protractor": "5.4.1",
+    "solium": "1.1.8",
+    "typescript": "3.1.3"
+  },
+  "dependencies": {
+    "rxjs": "6.3.3",
+    "systemjs": "2.1.1",
+    "zone.js": "0.8.26"
   }
 }

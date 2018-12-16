@@ -2,7 +2,8 @@
   "capabilities" : {
     "goog:chromeOptions" : {
       "args" : [
-        "--no-sandbox"
+        "--no-sandbox",
+        "--headless"
       ]
     }
   }

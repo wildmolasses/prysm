@@ -73,6 +73,7 @@ http_archive(
 )
 
 load("@build_bazel_rules_typescript//:package.bzl", "rules_typescript_dependencies")
+
 rules_typescript_dependencies()
 
 load("@build_bazel_rules_typescript//:defs.bzl", "ts_setup_workspace")
@@ -91,8 +92,9 @@ ng_setup_workspace()
 load("@io_bazel_rules_webtesting//web:repositories.bzl", "browser_repositories", "web_test_repositories")
 
 web_test_repositories()
+
 browser_repositories(
-  chromium = True,
+    chromium = True,
 )
 
 http_archive(

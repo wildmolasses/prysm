@@ -40,6 +40,13 @@ load("@io_bazel_rules_docker//docker:docker.bzl", "docker_repositories")
 docker_repositories()
 
 http_archive(
+    name = "io_bazel_rules_webtesting",
+    url = "https://github.com/bazelbuild/rules_webtesting/archive/0.2.2.tar.gz",
+    strip_prefix = "rules_webtesting-0.2.2",
+    sha256 = "89f041028627d801ba3b4ea1ef2211994392d46e25c1fc3501b95d51698e4a1e",
+)
+
+http_archive(
     name = "angular",
     url = "https://github.com/angular/angular/archive/7.1.3.zip",
     strip_prefix = "angular-7.1.3",

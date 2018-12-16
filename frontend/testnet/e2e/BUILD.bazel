@@ -13,6 +13,11 @@ ts_library(
     ],
 )
 
+BROWSERS = [
+    #"@io_bazel_rules_webtesting//browsers:chromium-local",
+    "//:chromium-no-sandbox",
+]
+
 # The @npm//@angular/bazel npm dependency provides
 # the @angular/bazel/protractor-utils
 protractor_web_test_suite(
@@ -24,6 +29,7 @@ protractor_web_test_suite(
     ],
     on_prepare = ":protractor.on-prepare.js",
     server = "//frontend/testnet/src:prodserver",
+    browser = BROWSERS,
     deps = [":e2e"],
 )
 
@@ -39,4 +45,5 @@ protractor_web_test_suite(
     on_prepare = ":protractor.on-prepare.js",
     server = "//frontend/testnet/src:devserver",
     deps = [":e2e"],
+    browser = BROWSERS,
 )

@@ -3,6 +3,7 @@ load("@com_github_atlassian_bazel_tools//gometalinter:def.bzl", "gometalinter")
 load("@com_github_atlassian_bazel_tools//goimports:def.bzl", "goimports")
 load("@io_kubernetes_build//defs:run_in_workspace.bzl", "workspace_binary")
 load("@build_bazel_rules_typescript//:defs.bzl", "ts_config")
+load("@io_bazel_rules_webtesting//web:web.bzl", "custom_browser")
 
 prefix = "github.com/prysmaticlabs/prysm"
 
@@ -16,7 +17,17 @@ ts_config(
     name = "tsconfig-test",
     src = "tsconfig-test.json",
     deps = [":tsconfig.json"],
-		visibility = ["//frontend:__subpackages__"],
+    visibility = ["//frontend:__subpackages__"],
+)
+
+# HACK: add --no-sandbox to chromium
+# https://github.com/bazelbuild/bazel/issues/6710
+# https://github.com/bazelbuild/rules_webtesting/issues/315
+custom_browser(
+    name = "chromium-no-sandbox",
+    browser = "@io_bazel_rules_webtesting//browsers:chromium-local",
+    metadata = "chromium-no-sandbox.json",
+    visibility = ["//frontend:__subpackages__"],
 )
 
 # gazelle:prefix github.com/prysmaticlabs/prysm

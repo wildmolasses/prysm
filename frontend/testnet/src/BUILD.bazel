@@ -4,19 +4,18 @@ load("@angular//:index.bzl", "ng_module")
 load("@build_bazel_rules_typescript//:defs.bzl", "ts_config", "ts_devserver", "ts_web_test_suite")
 
 ng_module(
-  name = "main",
-  srcs = [
-    "main.dev.ts",
-    "main.prod.ts",
-  ],
-  deps = [
-    "//frontend/testnet/src/app",
-    "@angular//packages/core",
-    "@angular//packages/platform-browser",
-  ],
-  tsconfig = "//:tsconfig.json",
+    name = "main",
+    srcs = [
+        "main.dev.ts",
+        "main.prod.ts",
+    ],
+    deps = [
+        "//frontend/testnet/src/app",
+        "@angular//packages/core",
+        "@angular//packages/platform-browser",
+    ],
+    tsconfig = "//:tsconfig.json",
 )
-
 
 # This devserver is written in Go and is super-fast.
 # It doesn't run any bundler or code splitter. Instead, it concatenates
@@ -97,14 +96,15 @@ ts_web_test_suite(
     name = "tests",
     srcs = ["@npm//node_modules/tslib:tslib.js"],
     bootstrap = [
-      "@npm//node_modules/zone.js:dist/zone-testing-bundle.js",
-      "@npm//node_modules/reflect-metadata:Reflect.js",
-      ":module-id.js",
+        "@npm//node_modules/zone.js:dist/zone-testing-bundle.js",
+        "@npm//node_modules/reflect-metadata:Reflect.js",
+        ":module-id.js",
     ],
     browsers = [
-      "@io_bazel_rules_webtesting//browsers:chromium-local",
+        #"@io_bazel_rules_webtesting//browsers:chromium-local",
+        "//:chromium-no-sandbox",
     ],
     deps = [
-      "//frontend/testnet/src/app:test_lib",  
+        "//frontend/testnet/src/app:test_lib",
     ],
 )

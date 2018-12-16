@@ -1,4 +1,4 @@
-package(default_visibility=["//frontend:__subpackages__"])
+package(default_visibility = ["//frontend:__subpackages__"])
 
 # Copy zone.min.js to this package.
 # Needed because the prodserver only loads static files that appear under this
@@ -17,4 +17,3 @@ genrule(
     outs = ["system.js"],
     cmd = "cp $< $@",
 )
-

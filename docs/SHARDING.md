@@ -35,11 +35,11 @@ A sharded blockchain system is made possible by having nodes store “signed met
 
 Cross-links are stored in blocks on a full proof of stake chain known as a **beacon chain**, which will be implemented as a sidechain to the Ethereum main chain initially.
 
-Cross-links are holistic descriptions of the state and transactions on a certain shard. Transactions in a shard are stored in **collations** which contain both a collation header and collation body  A collation header at its most basic, high level summary contains information about who created it, when it was added to a shard, and its internal data stored as serialized blobs.
+Cross-links are holistic descriptions of the state and transactions on a certain shard. Transactions in a shard are stored in **collations** which contain both a collation header and collation body. A collation header at its most basic, high level summary contains information about who created it, when it was added to a shard, and its internal data stored as serialized blobs.
 
 For detailed information on protocol primitives including collations, see: [Protocol Primitives](#protocol-primitives). We will have 2 types of nodes that do the heavy lifting of our sharding logic: **proposers and attesters**. The basic role of proposers is to fetch pending transactions from the txpool, wrap them into collations, grow the shard chains, and submit cross-links to the beacon chain.
 
-We still keep the Ethereum main chain and deploy a smart contract into it known as the **Validator Registration Contract**, where users can deposit and burn 32 ETH. Beacon chain nodes would listen to deposits in this contract and consequently queue up a user with the associated address as a validator in the beacon chain PoS system. Validators then become part of a registered validator set in the beacon chain, and are committees of validators are selected to become attesters on shard chains in certain periods of blocks until they are ventually reshuffled into different shards.
+We still keep the Ethereum main chain and deploy a smart contract into it known as the **Validator Registration Contract**, where users can deposit and burn 32 ETH. Beacon chain nodes would listen to deposits in this contract and consequently queue up a user with the associated address as a validator in the beacon chain PoS system. Validators then become part of a registered validator set in the beacon chain, and committees of validators are selected to become attesters on shard chains in certain periods of blocks until they are ventually reshuffled into different shards.
 
 Attesters are in charge of checking for data availability of such collations and reach consensus on canonical shard chains. So then, are proposers in charge of state execution? The short answer is that phase 1 will contain **no state execution**. Instead, proposers will simply package all types of transactions into collations and later down the line, agents known as executors will download, run, and validate state as they need to through possibly different types of execution engines (potentially TrueBit-style, interactive execution).
 
@@ -64,7 +64,7 @@ Our current work is focused on creating a localized version of a beacon chain wi
 -   A minimal, **beacon chain node** that will interact with a main chain geth node via JSON-RPC
 -   A **Validator Registration Contract** deployed on the main chain where a beacon node can read logs to check for registered validators
 -   A minimal, gossipsub shardp2p network
--   Ability for proposers/attesters/attesters to be selected by the beacon chain's randomness into committees that work on specific shards
+-   Ability for proposers/attesters to be selected by the beacon chain's randomness into committees that work on specific shards
 -   Ability to serialize blobs into collations on shard chains and advance the growth of the shard chains
 
 
@@ -104,7 +104,7 @@ Our implementation revolves around the following core components:
 
 A basic, end-to-end example of the system is as follows:
 
-1.  _**User deposits 32 ETH into a Validator Registration Contract on the main chain:**_ the beacon chain listens for the logs in the main chain to queue that validator into the beacon chain chain's main event loop
+1.  _**User deposits 32 ETH into a Validator Registration Contract on the main chain:**_ the beacon chain listens for the logs in the main chain to queue that validator into the beacon chain's main event loop
 
 2.  _**Registered validator begins PoS process to propose blocks:**_ the PoS validator has the resposibility to participate in the addition of new blocks to the beacon chain
 
@@ -169,7 +169,7 @@ How is this relevant to sharding? It is important to note the importance of cert
 
 ## Not Included in Ruby Release
 
-We will not be considering data availability proofs (part of the stateless client model) as part of the ruby release we will not be implementing them as it just yet as they are an area of active research.
+We will not be considering data availability proofs (part of the stateless client model) as part of the ruby release because they are an area of active research.
 
 Additionally, we will be using simple blockhashes for randomness in committee selections instead of a full RANDAO mechanism.
 
@@ -199,14 +199,14 @@ Then, in the resolution, all participants are then to reveal their private keys,
 ## Torus-shaped Sharded P2P Network
 
 One recommendation is using a [Torus-shaped sharding network](https://commons.wikimedia.org/wiki/File:Toroidal_coord.png). In this paradigm, there would be a single network that all shards share rather than a network for each shard. Nodes would propagate messages to peers interested in neighboring shards. A node listening on shard 16 would relay messages for shards in range of 11 to 21 (i.e +/-5). Nodes that need to listen on multiple shards can quickly change shards to find peers that may relay necessary messages. A node could potentially have access to messages from all shards with only 10 distinct peers for a 100 shard network. At the same time, we're considering replacing [DEVp2p](https://github.com/ethereum/wiki/wiki/%C3%90%CE%9EVp2p-Wire-Protocol) with [libp2p](https://github.com/libp2p) framework, which is actively maintained, proven to work with IPFS, and comes with client libraries for Go and Javascript.
-Active research is on going for moving Ethereum fron DEVp2p to libp2p. We are looking into how to map shards to libp2p and how to balance flood/gossipsub progagation vs active connections. Here is the current work of [poc](https://github.com/mhchia/go-libp2p/tree/poc-testing/examples/minimal) on [gossiphub](https://github.com/libp2p/go-floodsub/pull/67/). It utilizies pubsub for propagating messages such as transactions, proposals and sharded collations.
+Active research is ongoing for moving Ethereum fron DEVp2p to libp2p. We are looking into how to map shards to libp2p and how to balance flood/gossipsub progagation vs active connections. Here is the current work of [poc](https://github.com/mhchia/go-libp2p/tree/poc-testing/examples/minimal) on [gossiphub](https://github.com/libp2p/go-floodsub/pull/67/). It utilizies pubsub for propagating messages such as transactions, proposals and sharded collations.
 
 <https://ethresear.ch/t/torus-shaped-sharding-network/1720>
 
 
 ## Sparse Merkle Tree for State Storage
 
-With a sharded network comes sharded state storage. State sync today is difficult for clients today. While the blockchain data stored on disk might use~80gb for a fast sync, less than 5gb of that disk is state data while state sync accounts for the majority of time spent syncing. As the state grows, this issue will also grow. We imagine that it might be difficult to sync effectively when there are 100 shards and 100 different state tries. One recommendation from the Ethereum Research team outlines using [sparse merkle trees].(https://www.links.org/files/RevocationTransparency.pdf)
+With a sharded network comes sharded state storage. State sync today is difficult for clients today. While the blockchain data stored on disk might use~80gb for a fast sync, less than 5gb of that disk is state data while state sync accounts for the majority of time spent syncing. As the state grows, this issue will also grow. We imagine that it might be difficult to sync effectively when there are 100 shards and 100 different state tries. One recommendation from the Ethereum Research team outlines using [sparse merkle trees](https://www.links.org/files/RevocationTransparency.pdf).
 
 <https://ethresear.ch/t/data-availability-proof-friendly-state-tree-transitions/1453>
 
